@@ -1,0 +1,6 @@
+picamera
+numpy
+matplotlib
+PIL
+fractions
+csv
