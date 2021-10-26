@@ -70,16 +70,17 @@ def get_camera(cam_type='hq'):
 #     print("exposure compensation", camera.exposure_compensation)
     return camera
 
-def cap_jpeg(exposure, name=None, returnOut=False):
+def cap_jpeg(camera,exposure=None, name=None, returnOut=False):
     if name is None:
         fname = './snap%05d.png'%exposure
     else:
         fname = name
-    framerate = 1
-    if exposure > 5e5:
-        framerate = Fraction(1,80)
-    camera.framerate = framerate
-    camera.shutter_speed = exposure
+    if exposure is not None:
+        framerate = 1
+        if exposure > 5e5:
+            framerate = Fraction(1,80)
+        camera.framerate = framerate
+        camera.shutter_speed = exposure
     camera.capture(name, 'jpeg',bayer=True)
 
 
@@ -92,17 +93,3 @@ def cap_jpeg(exposure, name=None, returnOut=False):
     measured_exp = camera.shutter_speed
     print("Exposure val:%5d"%measured_exp)
     return output, measured_exp
-
-camera = get_camera('v1')
-exposure = []
-
-for i in range(6,23):
-	exposure.append(2**i)
-
-exposure.append(int(5e6))
-exposure.append(int(6e6))
-for e in exposure:
-    print(e)
-    fn = 'DiffusiveCalibration/exp%s'%(e)
-    output, _ = cap_jpeg(e, "%s.jpeg"%fn, False)
-camera.close()
