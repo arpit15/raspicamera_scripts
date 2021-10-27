@@ -78,7 +78,7 @@ def cap_jpeg(camera,exposure=None, name=None, returnOut=False):
     if exposure is not None:
         framerate = 1
         if exposure > 5e5:
-            framerate = Fraction(1,80)
+            framerate = Fraction(1,100)
         camera.framerate = framerate
         camera.shutter_speed = exposure
     camera.capture(name, 'jpeg',bayer=True)
