@@ -12,7 +12,6 @@ from picamera import PiCamera
 # from picamerax import PiCamera
 # import picamerax.array
 import numpy as np
-import matplotlib.pyplot as plt
 from numpy.lib.stride_tricks import as_strided
 from PIL import Image
 from fractions import Fraction
@@ -76,9 +75,12 @@ def cap_jpeg(camera,exposure=None, name=None, returnOut=False):
     else:
         fname = name
     if exposure is not None:
-        framerate = 1
-        if exposure > 5e5:
-            framerate = Fraction(1,100)
+        ratio = 1e6/(exposure*1.5)
+        if ratio > 1:
+            framerate = np.min((int(ratio),70))
+        else:
+            framerate = Fraction(1,int(1/ratio))
+        #print("framerate: ", framerate)
         camera.framerate = framerate
         camera.shutter_speed = exposure
     camera.capture(name, 'jpeg',bayer=True)

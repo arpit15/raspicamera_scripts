@@ -3,7 +3,7 @@ from camera_util import cap_jpeg
 from argparse import ArgumentParser
 import numpy as np
 from os.path import join
-import matplotlib.pyplot as plt
+import time
 
 if __name__ == '__main__':
 
@@ -18,7 +18,7 @@ if __name__ == '__main__':
     parser.add_argument('-m', action='store_true', default=False, help='multiple imaging mode')
     parser.add_argument('--camera','-c', type=str, default='v1', help='camera type: v1, v2')
     parser.add_argument('--exposure','-e', type=int, nargs='+', help='list of exposure value')
-    default_exposure = range(8,22)
+    default_exposure = range(4,23)
 
 
     args = parser.parse_args()
@@ -38,5 +38,8 @@ if __name__ == '__main__':
         for e in exposure:
             print(e)
             fn = args.folder+args.filename+'exp%s'%(e)
+            start = time.time()
             output, _ = cap_jpeg(camera,e, "%s.jpeg"%fn, False)
+            end = time.time()
+            print("running time: {time:.2f}".format(time=end-start))
     camera.close()
