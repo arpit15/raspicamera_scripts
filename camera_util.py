@@ -16,6 +16,7 @@ from numpy.lib.stride_tricks import as_strided
 from PIL import Image
 from fractions import Fraction
 import csv
+import time
 
 def get_camera(cam_type='hq'):
     # v1
@@ -75,7 +76,7 @@ def cap_jpeg(camera,exposure=None, name=None, returnOut=False):
     else:
         fname = name
     if exposure is not None:
-        ratio = 1e6/(exposure*1.5)
+        ratio = 1e6/(exposure*1.1)
         if ratio > 1:
             framerate = np.min((int(ratio),70))
         else:
@@ -83,7 +84,10 @@ def cap_jpeg(camera,exposure=None, name=None, returnOut=False):
         #print("framerate: ", framerate)
         camera.framerate = framerate
         camera.shutter_speed = exposure
+    start = time.time()
     camera.capture(name, 'jpeg',bayer=True)
+    end = time.time()
+    print("running time: {time:.2f}".format(time=end-start))
 
 
     if returnOut:

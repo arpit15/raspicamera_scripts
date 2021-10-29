@@ -26,7 +26,10 @@ if __name__ == '__main__':
     camera = get_camera(args.camera)
     if args.s:
         fn = args.folder+args.filename
-        output, _ = cap_jpeg(camera=camera,name="%s.jpeg"%fn, returnOut=False)
+        #start = time.time()
+        output, _ = cap_jpeg(camera=camera,exposure=int(6e6),name="%s.jpeg"%fn, returnOut=False)
+        #end = time.time()
+        #print("running time: {time:.2f}".format(time=end-start))
     elif args.m:
         if args.exposure is None:
             args.exposure = default_exposure
@@ -38,8 +41,8 @@ if __name__ == '__main__':
         for e in exposure:
             print(e)
             fn = args.folder+args.filename+'exp%s'%(e)
-            start = time.time()
+            #start = time.time()
             output, _ = cap_jpeg(camera,e, "%s.jpeg"%fn, False)
-            end = time.time()
-            print("running time: {time:.2f}".format(time=end-start))
+            #end = time.time()
+            #print("running time: {time:.2f}".format(time=end-start))
     camera.close()
