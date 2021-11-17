@@ -9,7 +9,7 @@ if __name__ == '__main__':
 
     parser = ArgumentParser(description='Create RGB image from individual image')
     parser.add_argument('--folder', '-f', type=str, 
-          default = "../test/",
+          default = "../test",
           help='output folder containing all captured images')
     parser.add_argument('--filename', '-n', type=str, 
           default = "test",
@@ -25,9 +25,9 @@ if __name__ == '__main__':
     
     camera = get_camera(args.camera)
     if args.s:
-        fn = args.folder+args.filename
+        fn = join(args.folder,args.filename)
         #start = time.time()
-        output, _ = cap_jpeg(camera=camera,exposure=int(6e6),name="%s.jpeg"%fn, returnOut=False)
+        output, _ = cap_jpeg(camera=camera,exposure=int(6e6),name=f"{fn}.jpeg", returnOut=False)
         #end = time.time()
         #print("running time: {time:.2f}".format(time=end-start))
     elif args.m:
@@ -40,9 +40,9 @@ if __name__ == '__main__':
 
         for e in exposure:
             print(e)
-            fn = args.folder+args.filename+'exp%s'%(e)
+            fn = join(args.folder,f"{args.filename}exp{e}")
             #start = time.time()
-            output, _ = cap_jpeg(camera,e, "%s.jpeg"%fn, False)
+            output, _ = cap_jpeg(camera,e, f"{fn}.jpeg", False)
             #end = time.time()
             #print("running time: {time:.2f}".format(time=end-start))
     camera.close()
