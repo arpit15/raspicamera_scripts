@@ -27,7 +27,7 @@ if __name__ == '__main__':
     if args.s:
         fn = join(args.folder,args.filename)
         #start = time.time()
-        output, _ = cap_jpeg(camera=camera,exposure=int(6e6),name=f"{fn}.jpeg", returnOut=False)
+        output, _ = cap_jpeg(camera=camera,exposure=int(args.exposure[0]),name=f"{fn}.jpeg", returnOut=False)
         #end = time.time()
         #print("running time: {time:.2f}".format(time=end-start))
     elif args.m:
